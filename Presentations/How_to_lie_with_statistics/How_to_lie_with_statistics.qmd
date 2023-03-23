@@ -1,0 +1,386 @@
+---
+title: "ouR mate club"
+subtitle: "How to lie with statistics"
+author: "Darrel Huff"
+# author: "Yuri Gelsleichter"
+# date: 2023/02/23
+# institute: Koti
+format: 
+  revealjs:
+    theme: custom_theme_yuri.scss
+    transition: convex
+    # incremental: true
+    footer: | 
+      Yuri Gelsleichter
+    background-transition: fade
+    slide-number: c/t
+    title-slide-attributes: 
+      data-background-image: "../figures/Under_carpet.png"
+      data-background-size: 30%
+      # data-background-opacity: "1"
+      data-background-position: bottom left
+  # pptx: default
+editor: visual
+---
+
+## The author
+-   Darrell Huff (1913 -- 2001) was an American writer, produced hundreds of **"How to" feature** articles and wrote at least sixteen books
+-  Illustrated by Irving Geis, Huff is the author of the best-seller `How to Lie with Statistics` (1954)
+
+## Lies
+- There are three kinds of lies: 
+- Lies, Damned Lies, and Statistics.
+
+## Topics in the presentation
+- Sampling Biases
+- It is written
+- Well-Chosen Average
+- The exaggerated graph
+- Percentage points
+- The OK name
+- What’s Missing?
+- Correlation vs. Causation
+
+## Sampling Biases
+<!-- * unordered list -->
+<!--     + sub-item 1 -->
+<!--     + sub-item 2 -->
+<!--         - sub-sub-item 1 -->
+* US 1936 presidential election
+  + Literary Digest (10 Millions)
+    - Alf Landon 370 votes
+    - Franklin Roosevelt 161 votes 
+
+## Sampling Biases
+  - Random sampling
+  - Stratified sampling
+
+
+<!-- ## Well-Chosen Average -->
+
+<!-- :::: {.columns} -->
+
+<!-- ::: {.column width="40%"} -->
+<!-- ![](../figures/well_chosen_average.jpg){.r-stretch}  -->
+<!-- ![](../figures/well_chosen_average.jpg){.absolute top="200" left="0" width="350" height="300"} -->
+<!-- ![](../figures/well_chosen_average.jpg){width="350" height="500"} -->
+<!-- ::: -->
+
+<!-- ::: {.column width="40%"} -->
+<!-- add the space -->
+<!-- ::: -->
+
+<!-- ::: {.column width="20%"} -->
+<!-- add the space -->
+<!-- ::: -->
+
+<!-- :::: -->
+
+## It is written
+- 4 out of 5 dentists surveyed would recommend sugarless gum to their patients who chew gum.
+
+- What did the fifth dentist recommend?
+
+- Would any dentist say that their patients should chew gum – sugarless or not?
+
+
+## Well-Chosen Average
+
+:::: {.columns}
+
+::: {.column width="40%"}
+<!-- ![](../figures/well_chosen_average.jpg){.r-stretch}  -->
+<!-- ![](../figures/well_chosen_average.jpg){.absolute top="200" left="0" width="350" height="300"} -->
+![](../figures/well_chosen_average.jpg){width="350" height="500"}
+:::
+
+::: {.column width="40%"} 
+::: {.fragment .fade-up}
+```{r, eval= T, echo= F}
+df <- data.frame(
+Salary= c("45,000", "15,000", "10,000", "5,700", "5,000", "3,700", "3,000", "2,000"),
+Employees= c(1, 1, 2, 1, 3, 4, 1, 12),
+Mean= c("", "", "", "(Mean)", "", "", "(Median)", "(Mode)")
+)
+```
+
+```{r, eval= T, echo= F}
+# install.packages("kableExtra") ### https://stackoverflow.com/a/47184530/14361772
+library(knitr)
+library(kableExtra)
+df |>  
+  kable("html") |>
+  kable_styling(font_size = 28)
+```
+:::
+:::
+
+::: {.column width="20%"}
+::: {.fragment .fade-up}
+::: {style="font-size: 0.6em; text-align: left"}
+Three Types of Averages:
+
+- Mean – The traditional average  ($5,700)
+- Median – The one in the middle. 12 make more and 12 make less. ($3,000)
+- Mode – The salary that occurs most often. ($1,000)
+:::
+:::
+:::
+
+::::
+
+
+## Well-Chosen Average
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r, eval= T, echo= F}
+df <- data.frame(
+Salary= c(rep(45000, 1), 
+          rep(15000, 1), 
+          rep(10000, 2), 
+          rep(5700, 1), 
+          rep(5000, 3), 
+          rep(3700, 4), 
+          rep(3000, 1), 
+          rep(2000, 12)),
+Employees= c(rep(1, 1), 
+             rep(1, 1), 
+             rep(2, 2), 
+             rep(1, 1), 
+             rep(3, 3), 
+             rep(4, 4), 
+             rep(1, 1), 
+             rep(12, 12))
+)
+
+# Filled Density Plot
+# d <- density(df$Salary)
+# plot(d, main="Kernel Density of Miles Per Gallon")
+
+s.maen <- mean(df$Salary)
+s.median <- median(df$Salary)
+# mode
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+# Calculate the mode
+s.mode <- getmode(df$Salary)
+
+```
+
+```{r, eval= T, echo= F}
+library(ggplot2)
+df |> 
+  ggplot(aes(x=Salary)) +
+  geom_density(fill="dodgerblue", alpha=0.5) +
+  geom_vline(xintercept= s.maen, linewidth= 0.8, color="red") + 
+  geom_text(aes(x=s.maen + 1800, y= 0.00018, label=paste0("Mean\n", s.maen)), color="red") +
+  geom_vline(xintercept= s.median, linewidth= 0.8, color="purple") +
+  geom_text(aes(x=s.median + 1900, y= 0.00021, label=paste0("Median\n", s.median)), color="purple") +
+  geom_vline(xintercept= s.mode, linewidth= 0.8, color="magenta") + 
+  geom_text(aes(x=s.mode - 2200, y= 0.00015, label=paste0("Mode\n", s.mode)), color="magenta") + 
+  scale_x_continuous(breaks= c(0, unique(df$Salary))) + 
+  guides(x =  guide_axis(angle = 90)) +
+  theme_light() 
+
+```
+:::
+
+::: {.column width="50%"}
+::: {.fragment .fade-up}
+```{r, eval= T, echo= F}
+df |> 
+  ggplot(aes(x=Salary)) +
+  geom_bar(fill="dodgerblue", alpha=0.5) + 
+  # geom_vline(xintercept= s.maen, linewidth= 0.8, color="red") + 
+  geom_point(x= s.maen, y= 1, color="red") +
+  geom_text(aes(x=s.maen + 1800, y= 2, label=paste0("Mean\n", s.maen)), color="red") +
+  # geom_vline(xintercept= s.median, linewidth= 0.8, color="purple") +
+  geom_point(x= s.median, y= 1, color="purple") +
+  geom_text(aes(x=s.median - 3200, y= 1, label=paste0("Median\n", s.median)), color="purple") +
+  # geom_vline(xintercept= s.mode, linewidth= 0.8, color="magenta") + 
+  geom_point(x= s.mode, y= 12, color="magenta") +
+  geom_text(aes(x=s.mode - 2200, y= 12, label=paste0("Mode\n", s.mode)), color="magenta") + 
+  scale_y_continuous(breaks= unique(df$Employees)) + 
+  scale_x_continuous(breaks= c(0, unique(df$Salary))) + 
+  guides(x =  guide_axis(angle = 90)) +
+  theme_light()
+```
+:::
+:::
+
+::::
+
+## Well-Chosen Average
+
+```{r, eval= T, echo= F}
+set.seed(700)
+x <- rnorm(50)
+# hist(x, main = "Normal Distribution", col = "darkorange")
+# d <- density(x)
+# plot(d, main= "Normal Distribution", col = "darkorange")
+df <- data.frame(x)
+```
+
+```{r, eval= T, echo= F}
+s.maen <- mean(df$x)
+s.median <- median(df$x)
+# mode
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+# Calculate the mode
+s.mode <- getmode(df$x)
+```
+
+```{r, eval= T, echo= F}
+df |> 
+  ggplot(aes(x=x)) +
+  geom_density(fill="dodgerblue", alpha=0.5) +
+  geom_vline(xintercept= s.maen, linewidth= 0.8, color="red") + 
+  geom_text(aes(x=s.maen + 0.6, y= 0.4, label=paste0("Mean\n", round(s.maen, 3))), color="red") +
+  geom_vline(xintercept= s.median, linewidth= 0.8, color="purple") +
+  geom_text(aes(x=s.median + 1, y= 0.3, label=paste0("Median\n", round(s.median, 3))), color="purple") +
+  geom_vline(xintercept= s.mode, linewidth= 0.8, color="magenta") + 
+  geom_text(aes(x=s.mode - 0.6, y= 0.4, label=paste0("Mode\n", round(s.mode ,3))), color="magenta") + 
+  guides(x =  guide_axis(angle = 90)) +
+  ggtitle("Normal distribution") + 
+  theme_light() 
+```
+
+## Well-Chosen Average
+"A man may have six meals one day and none the next, making an average of three meals per day, but that is not a good way to live." 
+
+Justice Louis D. Brandeis 
+
+
+## The exaggerated graph
+
+```{r, eval= T, echo= T, include = T}
+df <- data.frame(Seller= c("Rik", "Paty", "Zolt", "Debs"),
+                Amount= c(48, 43, 32, 30))
+
+
+library(ggplot2)
+p <- ggplot(data=df, aes(x= Seller, y= Amount)) +
+  geom_bar(stat="identity", fill="steelblue")+
+  theme_minimal()
+
+```
+
+```{r, eval= F, echo= F, include = F}
+p
+p + coord_cartesian(ylim = c(30, 44))
+p + coord_cartesian(ylim = c(0, 5000))
+
+### See packages "explore" ### https://cran.r-project.org/web/packages/explore/vignettes/explore_titanic.html
+# library(explore)
+
+
+```
+
+## The exaggerated graph
+
+:::: {.columns}
+::: {.column width="70%"}
+```{r, eval= T, echo= F, include = T}
+p
+```
+:::
+::: {.column width="30%"}
+![](../figures/SZIEnormal.jpg)
+:::
+::::
+
+## The exaggerated graph
+
+:::: {.columns}
+::: {.column width="70%"}
+```{r, eval= T, echo= F, include = T}
+p + coord_cartesian(ylim = c(30, 44)) 
+```
+:::
+::: {.column width="30%"}
+![](../figures/SZIEstre.jpg)
+:::
+::::
+
+## The exaggerated graph
+
+:::: {.columns}
+::: {.column width="70%"}
+```{r, eval= T, echo= F, include = T}
+p + coord_cartesian(ylim = c(0, 5000)) 
+```
+:::
+::: {.column width="30%"}
+![](../figures/SZIEcompr.jpg)
+:::
+::::
+
+
+## Percentage points
+Suppose that you have and investment with 3% return in one year. \
+For next year it is projected as 6%. \
+You can say that you get 3 percent point increase. \
+But [*no way*]{.fragment .highlight-red} it [jumps to 100%]{.fragment .highlight-green}.
+
+
+## The OK name
+- The PowerPoint/Excel Syndrome
+- "When an OK name is cited (i.e. the Harvard Institute), make sure that the authority stands behind the information, not merely somewhere alongside it."
+
+## What’s Missing?
+You are three times more likely to be hit by lightning than you are to be attacked by a shark. 
+
+## Correlation vs. Causation
+- Ice cream sales go up during the summer.
+- Homicides increase during the summer.
+- Therefore, ice cream leads to murder or murder leads to ice cream.
+- Correlation is not causation. Perhaps neither of these things has produced the other, but both are a product of some third factor. [(It’s hot)]{.fragment .highlight-green}. 
+- Be careful when somebody says that A leads to B.
+
+## Six questions to ask about any statistic
+<!-- 1. ordered list -->
+<!-- 2. item 2 -->
+<!--     i) sub-item 1 -->
+<!--          A.  sub-sub-item 1 -->
+1. Who Created it? Do They Have an Agenda? (Biased pollster)
+2. Why was it created? For Research or to persuade?
+3. How was it Created? What Methodology was used?
+4. What is missing? Is there some hidden context?
+5. Is it relevant? Does it tend to mislead the reader?
+6. Does it make sense? If it sounds ridiculous, it probably is.
+
+## Conclusions
+Statistics are commonly used to support a biased position or an outright fabrication for two reasons.
+
+- Few people understand statistics well enough to question them.
+- Lying with statistics requires no actual lying. 
+- If the most favorable data is highlighted and the most unfavorable data is suppressed, statistics can be manipulated to illustrate just about any point of view, allowing the manipulator’s hands to remain unsullied.
+
+## Remarks
+"Statistics are no substitute for judgment."
+
+Henry Clay
+
+"Statistics are science and art at the same time."
+
+Darrel Huff
+
+"Torture numbers, and they'll confess to anything."
+
+Gregg Easterbrook
+
+
+
+## This presentation - Quarto
+
+This presentation was created with `Quarto`, to learn more see <https://quarto.org/docs/presentations/>.
+
+Presentation files at <https://github.com/Gelsleichter/Project-folders-for-R/>.
