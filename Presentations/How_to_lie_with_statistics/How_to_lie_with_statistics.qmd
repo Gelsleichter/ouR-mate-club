@@ -383,4 +383,4 @@ Gregg Easterbrook
 
 This presentation was created with `Quarto`, to learn more see <https://quarto.org/docs/presentations/>.
 
-Presentation files at <https://github.com/Gelsleichter/ouR-mate-club/tree/main/Presentations/How_to_lie_with_statistics>.
+Presentation files at <https://github.com/Gelsleichter/ouR-mate-club/>.
