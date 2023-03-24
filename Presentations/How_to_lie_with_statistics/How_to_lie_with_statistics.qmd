@@ -3,7 +3,8 @@ title: "ouR mate club"
 subtitle: "How to lie with statistics"
 author: "Darrel Huff"
 # author: "Yuri Gelsleichter"
-# date: 2023/02/23
+date: 2023/02/23
+date-format: "DD MMM YYYY"
 # institute: Koti
 format: 
   revealjs:
@@ -11,7 +12,7 @@ format:
     transition: convex
     # incremental: true
     footer: | 
-      Yuri Gelsleichter
+      Gelsleichter.Yuri.Andrei@uni-mate.hu
     background-transition: fade
     slide-number: c/t
     title-slide-attributes: 
@@ -54,27 +55,6 @@ editor: visual
 ## Sampling Biases
   - Random sampling
   - Stratified sampling
-
-
-<!-- ## Well-Chosen Average -->
-
-<!-- :::: {.columns} -->
-
-<!-- ::: {.column width="40%"} -->
-<!-- ![](../figures/well_chosen_average.jpg){.r-stretch}  -->
-<!-- ![](../figures/well_chosen_average.jpg){.absolute top="200" left="0" width="350" height="300"} -->
-<!-- ![](../figures/well_chosen_average.jpg){width="350" height="500"} -->
-<!-- ::: -->
-
-<!-- ::: {.column width="40%"} -->
-<!-- add the space -->
-<!-- ::: -->
-
-<!-- ::: {.column width="20%"} -->
-<!-- add the space -->
-<!-- ::: -->
-
-<!-- :::: -->
 
 ## It is written
 - 4 out of 5 dentists surveyed would recommend sugarless gum to their patients who chew gum.
@@ -184,9 +164,8 @@ df |>
   geom_vline(xintercept= s.mode, linewidth= 0.8, color="magenta") + 
   geom_text(aes(x=s.mode - 2200, y= 0.00015, label=paste0("Mode\n", s.mode)), color="magenta") + 
   scale_x_continuous(breaks= c(0, unique(df$Salary))) + 
-  guides(x =  guide_axis(angle = 90)) +
-  theme_light() 
-
+  guides(x =  guide_axis(angle = 90)) + 
+  theme_light(base_size = 14) ### https://stackoverflow.com/a/11955528/14361772
 ```
 :::
 
@@ -207,8 +186,8 @@ df |>
   geom_text(aes(x=s.mode - 2200, y= 12, label=paste0("Mode\n", s.mode)), color="magenta") + 
   scale_y_continuous(breaks= unique(df$Employees)) + 
   scale_x_continuous(breaks= c(0, unique(df$Salary))) + 
-  guides(x =  guide_axis(angle = 90)) +
-  theme_light()
+  guides(x =  guide_axis(angle = 90)) + 
+  theme_light(base_size = 14) ### https://stackoverflow.com/a/11955528/14361772
 ```
 :::
 :::
@@ -250,7 +229,7 @@ df |>
   geom_text(aes(x=s.mode - 0.6, y= 0.4, label=paste0("Mode\n", round(s.mode ,3))), color="magenta") + 
   guides(x =  guide_axis(angle = 90)) +
   ggtitle("Normal distribution") + 
-  theme_light() 
+  theme_light(base_size = 14) ### https://stackoverflow.com/a/11955528/14361772
 ```
 
 ## Well-Chosen Average
@@ -269,7 +248,7 @@ df <- data.frame(Seller= c("Rik", "Paty", "Zolt", "Debs"),
 library(ggplot2)
 p <- ggplot(data=df, aes(x= Seller, y= Amount)) +
   geom_bar(stat="identity", fill="steelblue")+
-  theme_minimal()
+  theme_minimal(base_size = 18)
 
 ```
 
