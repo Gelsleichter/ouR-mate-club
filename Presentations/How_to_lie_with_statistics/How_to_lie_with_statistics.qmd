@@ -25,8 +25,8 @@ editor: visual
 ---
 
 ## The author
--   Darrell Huff (1913 -- 2001) was an American writer, produced hundreds of **"How to" feature** articles and wrote at least sixteen books
--  Illustrated by Irving Geis, Huff is the author of the best-seller `How to Lie with Statistics` (1954)
+- Darrell Huff (1913 -- 2001) was an American writer, produced hundreds of **"How to" feature** articles and wrote at least sixteen books
+- Illustrated by Irving Geis, Huff is the author of the best-seller `How to Lie with Statistics` (1954)
 
 ## Lies
 - There are three kinds of lies: 
